@@ -3,9 +3,14 @@ import CampaignForm from "./CampaignForm";
 import CampaignList from "./CampaignList";
 
 function App() {
-  const [refresh, setRefresh] = useState(false);
+  const [campaigns, setCampaigns] = useState([]);
 
-  const handleCampaignCreated = () => setRefresh((r) => !r);
+  const handleCampaignCreated = (newCampaign) => {
+    setCampaigns((prevCampaigns) => [
+      ...prevCampaigns,
+      { ...newCampaign, id: prevCampaigns.length + 1 },
+    ]);
+  };
 
   return (
     <div className="app">
@@ -34,13 +39,11 @@ function App() {
             <a href="#all-campaigns">All Campaigns</a>
           </nav>
         </aside>
-        <main className="main">
-          <section id="create-campaign">
+        <main className="main-content">
+          <div className="main-inner">
             <CampaignForm onCampaignCreated={handleCampaignCreated} />
-          </section>
-          <section id="all-campaigns">
-            <CampaignList refresh={refresh} />
-          </section>
+            <CampaignList campaigns={campaigns} />
+          </div>
         </main>
       </div>
 

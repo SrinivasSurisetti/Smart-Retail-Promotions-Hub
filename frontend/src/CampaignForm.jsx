@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { API_BASE_URL, api_key } from "./apiConfig";
+import React, { useState } from "react";
 
 const initialForm = {
   Name: "",
@@ -21,30 +20,14 @@ export default function CampaignForm({ onCampaignCreated }) {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-    setSuccess(false);
-    try {
-      const response = await fetch(`${API_BASE_URL}/campaigns`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": api_key,
-        },
-        body: JSON.stringify(form),
-      });
-      if (!response.ok) throw new Error("Failed to create campaign");
-      setForm(initialForm);
-      setSuccess(true);
-      if (onCampaignCreated) onCampaignCreated();
-      setTimeout(() => setSuccess(false), 2000);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (onCampaignCreated) {
+      onCampaignCreated(form);
     }
+    setForm(initialForm);
+    setSuccess(true);
+    setTimeout(() => setSuccess(false), 2000);
   };
 
   return (
