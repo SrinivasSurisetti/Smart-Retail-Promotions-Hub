@@ -4,5 +4,5 @@ import react from "@vitejs/plugin-react";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.node_env === "production" ? "/frontend/front" : "/",
+  base: process.env.PUBLIC_URL || "/front_end/frontend/",
 });
